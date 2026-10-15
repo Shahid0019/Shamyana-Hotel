@@ -41,28 +41,31 @@ export function HomeHero() {
       aria-labelledby="hero-title"
       className="on-dark relative isolate flex min-h-svh flex-col overflow-hidden bg-night text-cream"
     >
-      {/* Crossfading scenes */}
-      {(Object.keys(modes) as Mode[]).map((m) => (
-        <div
-          key={m}
-          aria-hidden={m !== mode}
-          className={cn(
-            "absolute inset-0 -z-20 transition-[opacity,transform] duration-[1600ms] ease-(--ease-luxe)",
-            m === mode ? "scale-100 opacity-100" : "scale-105 opacity-0",
-          )}
-        >
-          <Image
-            src={modes[m].image.image}
-            alt={m === mode ? modes[m].image.alt : ""}
-            fill
-            sizes="100vw"
-            preload={m === "stay"}
-            placeholder="blur"
-            className="object-cover"
-            style={{ objectPosition: modes[m].focus }}
-          />
-        </div>
-      ))}
+      {/* Background video (image shows while loading, and for reduced-motion users) */}
+      <div aria-hidden="true" className="absolute inset-0 -z-20">
+        <Image
+          src={modes.stay.image.image}
+          alt=""
+          fill
+          sizes="100vw"
+          preload
+          placeholder="blur"
+          className="object-cover"
+          style={{ objectPosition: modes.stay.focus }}
+        />
+        <video
+          className="absolute inset-0 size-full object-cover motion-reduce:hidden"
+          src="/Creating_promotional_video_for_h…_20261015144730.mp4"
+          poster={modes.stay.image.image.src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+      </div>
+
+      {/* Overlays for text legibility */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgb(20_14_10/0.2),rgb(20_14_10/0.6))]" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-night/55 via-transparent to-night/55" />
 
